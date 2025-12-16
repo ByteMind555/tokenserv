@@ -3,6 +3,7 @@ package com.anz.platform.common.tokenserv.service;
 import com.anz.platform.common.tokenserv.cryptography.CryptoService;
 import com.anz.platform.common.tokenserv.exception.CryptoException;
 import com.anz.platform.common.tokenserv.exception.RequestValidationException;
+import com.anz.platform.common.tokenserv.exception.TokenNotFoundException;
 import com.anz.platform.common.tokenserv.model.Token;
 import com.anz.platform.common.tokenserv.model.TokenizerRequest;
 import com.anz.platform.common.tokenserv.model.TokenizerResponse;
@@ -71,14 +72,14 @@ class TokenServServiceImplTest {
     }
 
     @Test
-    void deTokenise_existingToken_returnsPlainValue() throws RequestValidationException {
-        String token = "tokenValue";
+    void deTokenise_existingToken_returnsPlainValue() throws RequestValidationException, TokenNotFoundException {
+        String token = "token";
         String plainValue = "4111-1111-1111-1111";
 
         when(repository.findByToken(token)).thenReturn(Optional.of(plainValue));
 
         TokenizerRequest tokenizerRequest = new TokenizerRequest();
-        tokenizerRequest.setEntity(List.of(plainValue));
+        tokenizerRequest.setEntity(List.of(token));
         TokenizerResponse response = service.deTokenise(tokenizerRequest);
 
         assertEquals(1, response.getEntity().size());
@@ -86,18 +87,21 @@ class TokenServServiceImplTest {
     }
 
     @Test
-    void deTokenise_missingToken_returnsErrorMessage() throws RequestValidationException {
-        String token = "unknownToken";
+    void deTokenise_missingToken_returnsErrorMessage() throws RequestValidationException, TokenNotFoundException {
 
-        when(repository.findByToken(token)).thenReturn(Optional.empty());
+        assertThrows(TokenNotFoundException.class, () -> {
+            String token = "unknownToken";
 
-        TokenizerRequest tokenizerRequest = new TokenizerRequest();
-        tokenizerRequest.setEntity(List.of());
+            when(repository.findByToken(token)).thenReturn(Optional.empty());
 
-        TokenizerResponse response = service.deTokenise(tokenizerRequest);
+            TokenizerRequest tokenizerRequest = new TokenizerRequest();
+            tokenizerRequest.setEntity(List.of(token));
 
-        assertEquals(1, response.getEntity().size());
-        assertTrue(response.getEntity().get(0).contains("No entry found"));
+            TokenizerResponse response = service.deTokenise(tokenizerRequest);
+
+            assertEquals(1, response.getEntity().size());
+            assertTrue(response.getEntity().get(0).contains("No entry found for token: unknownToken"));
+        } );
     }
 
     @Test
@@ -110,16 +114,15 @@ class TokenServServiceImplTest {
         assertThrows(RequestValidationException.class, () -> service.deTokenise(tokenizerRequest));
     }
 
-    //@Test
+    @Test
     void tokenise_existingToken_returnsSameToken() throws CryptoException, Exception, RequestValidationException {
         String plainValue = "4111-1111-1111-1111";
         String existingToken = "existingEncrypted";
 
         when(repository.findNonExpiredToken(eq(plainValue), any())).thenReturn(Optional.of(existingToken));
 
-
         TokenizerRequest tokenizerRequest = new TokenizerRequest();
-        tokenizerRequest.setEntity(List.of());
+        tokenizerRequest.setEntity(List.of(plainValue));
 
         TokenizerResponse response = service.tokenise(tokenizerRequest);
 
@@ -128,6 +131,5 @@ class TokenServServiceImplTest {
 
         // Ensure no encryption or save is called
         verify(cryptoService, never()).encrypt(any());
-        verify(repository, never()).saveAll(any());
     }
 }

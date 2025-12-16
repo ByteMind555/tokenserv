@@ -3,6 +3,7 @@ package com.anz.platform.common.tokenserv.service;
 import com.anz.platform.common.tokenserv.cryptography.CryptoService;
 import com.anz.platform.common.tokenserv.exception.CryptoException;
 import com.anz.platform.common.tokenserv.exception.RequestValidationException;
+import com.anz.platform.common.tokenserv.exception.TokenNotFoundException;
 import com.anz.platform.common.tokenserv.model.Token;
 import com.anz.platform.common.tokenserv.model.TokenizerRequest;
 import com.anz.platform.common.tokenserv.model.TokenizerResponse;
@@ -39,8 +40,8 @@ public class TokenServServiceImpl implements TokenServService {
 
     @Override
     public TokenizerResponse deTokenise(TokenizerRequest request)
-            throws RequestValidationException {
-
+            throws RequestValidationException, TokenNotFoundException {
+        // Step 1: Validate
         validateRequest(request);
         List<String> response = new ArrayList<>();
         for (String token : request.getEntity()) {
@@ -104,9 +105,11 @@ public class TokenServServiceImpl implements TokenServService {
     }
 
 
-    private String resolvePlainValue(String token) {
+    private String resolvePlainValue(String token) throws TokenNotFoundException {
         return tokenStoreRepository.findByToken(token)
-                .orElse("No entry found for token: " + token);
+                .orElseThrow(() ->
+                        new TokenNotFoundException("No entry found for token: " + token)
+                );
     }
 
     private void validateRequest(TokenizerRequest request) throws RequestValidationException {

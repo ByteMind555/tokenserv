@@ -62,7 +62,7 @@ Design principles followed:
 The application will start on:
 
 ```
-http://localhost:3000
+http://localhost:8080
 ```
 
 ---
@@ -76,13 +76,7 @@ This service exposes an OpenAPI (Swagger) definition for easy exploration and te
 Once the application is running, access the Swagger UI at:
 
 ```
-http://localhost:3000/swagger-ui.html
-```
-
-or (depending on SpringDoc version):
-
-```
-http://localhost:3000/swagger-ui/index.html
+http://localhost:8080/swagger-ui.html
 ```
 
 ### OpenAPI Specification
@@ -90,21 +84,7 @@ http://localhost:3000/swagger-ui/index.html
 The OpenAPI JSON definition is available at:
 
 ```
-http://localhost:3000/v3/api-docs
-```
-
----
-
-### Maven Dependency
-
-The API documentation is generated using **springdoc-openapi**:
-
-```xml
-<dependency>
-  <groupId>org.springdoc</groupId>
-  <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-  <version>2.5.0</version>
-</dependency>
+http://localhost:8080/v3/api-docs
 ```
 
 ---
@@ -169,6 +149,31 @@ The API documentation is generated using **springdoc-openapi**:
   "4444-1111-2222-3333"
 ]
 ```
+---
+
+## Swagger.yaml 
+![Swagger](tokenserv-screenshots/swagger.png)
+
+
+---
+
+## 🗄️ In-Memory Database
+
+* Uses **H2** in-memory database
+* Data exists only while the application is running
+* Automatically created and destroyed on startup/shutdown
+
+Optional H2 Console:
+
+```
+http://localhost:8080/h2-console
+```
+
+## Credentials:
+![Token Service Screenshot](tokenserv-screenshots/dbDetails.png)
+
+## App startup Schema:
+![Swagger](tokenserv-screenshots/dbSchema.png)
 
 ---
 
@@ -186,19 +191,16 @@ Run tests using:
 ./mvnw test
 ```
 
----
+## UnitTest Results:
+![Token Service Screenshot](tokenserv-screenshots/unitTest.png)
 
-## 🗄️ In-Memory Database
+## Sample Data Screenshot of Payload and response:
 
-* Uses **H2** in-memory database
-* Data exists only while the application is running
-* Automatically created and destroyed on startup/shutdown
+### Tokenize endpoint
+![Tokenize](tokenserv-screenshots/tokenize.png)
 
-Optional H2 Console:
-
-```
-http://localhost:3000/h2-console
-```
+### De-Tokenize endpoint
+![Tokenize](tokenserv-screenshots/deTokenize.png)
 
 ---
 
@@ -208,7 +210,7 @@ This is **not production-ready** and intentionally omits:
 
 * Authentication / Authorization
 * Encryption at rest
-* Token expiration or rotation
+* Max token size for Token generation
 * Rate limiting
 * Distributed storage or clustering
 
@@ -218,18 +220,11 @@ These are deliberate trade-offs for a focused coding exercise.
 
 ## 🔮 Potential Future Enhancements
 
-* Encrypt account numbers before persistence
-* Add token expiry and rotation policies
+* Add token rotation policies
 * Replace H2 with Redis or a secure datastore
 * Add request validation and error handling
 * Introduce idempotency keys
 * Horizontal scaling support
-
----
-
-## 👤 Author
-
-Developed as a technical exercise to demonstrate clean Spring Boot service design, REST APIs, and unit testing.
 
 ---
 
@@ -239,4 +234,18 @@ Developed as a technical exercise to demonstrate clean Spring Boot service desig
 * Easy to run and verify locally
 * Designed for discussion and extension during interviews
 
-No buzzwords. No overengineering. Just solid fundamentals.
+---
+
+## 👤 Author
+
+Developed as a technical exercise to demonstrate clean Spring Boot service design, REST APIs, and unit testing.
+
+## Contact details:
+
+---
+- **Name:** Diwakar Barnes
+- **Email:** diwakar.david@gmail.com
+- **LinkedIn:** https://www.linkedin.com/in/diwakar-b-00379547/
+- **Phone:** 0274 622 466
+
+---
