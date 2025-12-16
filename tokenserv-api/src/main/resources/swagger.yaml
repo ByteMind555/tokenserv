@@ -10,7 +10,7 @@ info:
   version: 1.0.0
   contact:
     name: Diwakar
-    email: diwakar.david@gmail.com
+    email:
 
 servers:
   - url: http://localhost:8080/tokenserv/api/v1/

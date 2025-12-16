@@ -214,7 +214,8 @@ Run tests using:
 
 This is **not production-ready** and intentionally omits:
 
-* Authentication / Authorization
+* Only unit test. No functional or performance tests.
+* No authentication / authorization 
 * Encryption at rest
 * Max token size for Token generation
 * Rate limiting
@@ -226,17 +227,19 @@ These are deliberate trade-offs for a focused coding exercise.
 
 ## 🔮 Potential Future Enhancements
 
+* Introduce idempotency keys
+* Header misses the correlation_Id
 * Add token rotation policies
 * Replace H2 with Redis or a secure datastore
-* Add request validation and error handling
-* Introduce idempotency keys
+* Add additional request validation and error handling
+* Option to select encryption algorithm
 * Horizontal scaling support
 
 ---
 
 ## ✅ Summary
 
-* Simple and clear implementation
+* Simple and basic implementation
 * Easy to run and verify locally
 * Designed for discussion and extension during interviews
 
@@ -244,14 +247,10 @@ These are deliberate trade-offs for a focused coding exercise.
 
 ## 👤 Author
 
-Developed as a technical exercise to demonstrate clean Spring Boot service design, REST APIs, and unit testing.
 
 ## Contact details:
 
 ---
 - **Name:** Diwakar Barnes
-- **Email:** diwakar.david@gmail.com
 - **LinkedIn:** https://www.linkedin.com/in/diwakar-b-00379547/
-- **Phone:** 0274 622 466
-
 ---
