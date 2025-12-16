@@ -155,6 +155,12 @@ http://localhost:8080/v3/api-docs
 ![Swagger](tokenserv-screenshots/swagger.png)
 
 
+## Postman Collection:
+### Location : /tokenserv-infra/api-contract/tokenServ.json
+
+![Swagger](tokenserv-screenshots/postmanCollection.png)
+
+
 ---
 
 ## 🗄️ In-Memory Database

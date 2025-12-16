@@ -1,0 +1,79 @@
+{
+  "info": {
+    "name": "tokenServ",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Tokenize",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/tokenserv/api/v1/tokenize",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "tokenserv",
+            "api",
+            "v1",
+            "tokenize"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"entity\": [\n    \"4111-1111-1111-1111\",\n    \"4444-3333-2222-1111\",\n    \"4444-1111-2222-3333\"\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Detokenize",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/tokenserv/api/v1/detokenize",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "tokenserv",
+            "api",
+            "v1",
+            "detokenize"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"entity\": [\n    \"8t75PyEbtstxm1UStt6JR+0CldYAVCSsxq4KucNDjZQ2vHRVhssG1S4YLwr+uJs=\",\n    \"H1KTneq2E6zvlU0T2EGi/tJwzd6K3kpMbWG4sb40PpQeBqFRGM3Vbh2T9juT/W0=\",\n    \"Z5Sil+nlotFQCyUiqy5VnNvvEnunqA6QU8cmWcN8DiUd2ZWVBs3dkii0XDLbKOg=\"\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "variable": []
+}
