@@ -6,14 +6,13 @@ import java.util.List;
 
 public class TokenizerRequest {
 
-    private final List<String> entity = new ArrayList<>();;
-
-
-    public TokenizerRequest(List<String> plainValue) {
-        this.entity.addAll(plainValue);
-    }
+    private List<String> entity = new ArrayList<>();;
 
     public List<String> getEntity() {
         return entity;
+    }
+
+    public void setEntity(List<String> entity) {
+        this.entity = entity;
     }
 }

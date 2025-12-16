@@ -14,8 +14,15 @@ import org.mockito.ArgumentCaptor;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class TokenServServiceImplTest {
 
@@ -38,7 +45,9 @@ class TokenServServiceImplTest {
         when(repository.findNonExpiredToken(eq(plainValue), any())).thenReturn(Optional.empty());
         when(cryptoService.encrypt(plainValue)).thenReturn(encryptedToken);
 
-        TokenizerResponse response = service.tokenise(new TokenizerRequest(List.of(plainValue)));
+        TokenizerRequest tokenizerRequest = new TokenizerRequest();
+        tokenizerRequest.setEntity(List.of(plainValue));
+        TokenizerResponse response = service.tokenise(tokenizerRequest);
 
         assertEquals(1, response.getEntity().size());
         assertEquals(encryptedToken, response.getEntity().get(0));
@@ -56,7 +65,9 @@ class TokenServServiceImplTest {
     @Test
     void tokenise_nullOrEmptyRequest_throws() {
         assertThrows(RequestValidationException.class, () -> service.tokenise(null));
-        assertThrows(RequestValidationException.class, () -> service.tokenise(new TokenizerRequest(List.of())));
+        TokenizerRequest tokenizerRequest = new TokenizerRequest();
+        tokenizerRequest.setEntity(List.of());
+        assertThrows(RequestValidationException.class, () -> service.tokenise(tokenizerRequest));
     }
 
     @Test
@@ -66,7 +77,9 @@ class TokenServServiceImplTest {
 
         when(repository.findByToken(token)).thenReturn(Optional.of(plainValue));
 
-        TokenizerResponse response = service.deTokenise(new TokenizerRequest(List.of(token)));
+        TokenizerRequest tokenizerRequest = new TokenizerRequest();
+        tokenizerRequest.setEntity(List.of(plainValue));
+        TokenizerResponse response = service.deTokenise(tokenizerRequest);
 
         assertEquals(1, response.getEntity().size());
         assertEquals(plainValue, response.getEntity().get(0));
@@ -78,7 +91,10 @@ class TokenServServiceImplTest {
 
         when(repository.findByToken(token)).thenReturn(Optional.empty());
 
-        TokenizerResponse response = service.deTokenise(new TokenizerRequest(List.of(token)));
+        TokenizerRequest tokenizerRequest = new TokenizerRequest();
+        tokenizerRequest.setEntity(List.of());
+
+        TokenizerResponse response = service.deTokenise(tokenizerRequest);
 
         assertEquals(1, response.getEntity().size());
         assertTrue(response.getEntity().get(0).contains("No entry found"));
@@ -87,7 +103,11 @@ class TokenServServiceImplTest {
     @Test
     void deTokenise_nullOrEmptyRequest_throws() {
         assertThrows(RequestValidationException.class, () -> service.deTokenise(null));
-        assertThrows(RequestValidationException.class, () -> service.deTokenise(new TokenizerRequest(List.of())));
+
+        TokenizerRequest tokenizerRequest = new TokenizerRequest();
+        tokenizerRequest.setEntity(List.of());
+
+        assertThrows(RequestValidationException.class, () -> service.deTokenise(tokenizerRequest));
     }
 
     //@Test
@@ -97,7 +117,11 @@ class TokenServServiceImplTest {
 
         when(repository.findNonExpiredToken(eq(plainValue), any())).thenReturn(Optional.of(existingToken));
 
-        TokenizerResponse response = service.tokenise(new TokenizerRequest(List.of(plainValue)));
+
+        TokenizerRequest tokenizerRequest = new TokenizerRequest();
+        tokenizerRequest.setEntity(List.of());
+
+        TokenizerResponse response = service.tokenise(tokenizerRequest);
 
         assertEquals(1, response.getEntity().size());
         assertEquals(existingToken, response.getEntity().get(0));
