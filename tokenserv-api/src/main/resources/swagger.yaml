@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+  title: Tokenization Service API
+  description: |
+    A simple tokenization service that replaces sensitive account numbers
+    with randomized tokens and allows reversing the process via detokenization.
+
+    This API is intentionally minimal and designed for demonstration and
+    interview evaluation purposes.
+  version: 1.0.0
+  contact:
+    name: API Maintainer
+    email: maintainer@example.com
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /tokenize:
+    post:
+      summary: Tokenize account numbers
+      description: |
+        Accepts a list of account numbers and returns a list of generated tokens.
+        Tokenization is idempotent: the same account number will always return
+        the same token while the service is running.
+      operationId: tokenizeAccounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                example: "4111-1111-1111-1111"
+      responses:
+        "200":
+          description: Successfully tokenized account numbers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: "fvMymE7X0Je1IzMDgWooV5iGBPw0yoFy"
+
+  /detokenize:
+    post:
+      summary: Detokenize tokens
+      description: |
+        Accepts a list of tokens and returns the original account numbers.
+        An error is returned if a token is unknown.
+      operationId: detokenizeTokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                example: "fvMymE7X0Je1IzMDgWooV5iGBPw0yoFy"
+      responses:
+        "200":
+          description: Successfully detokenized tokens
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: "4111-1111-1111-1111"
+        "400":
+          description: Unknown or invalid token
