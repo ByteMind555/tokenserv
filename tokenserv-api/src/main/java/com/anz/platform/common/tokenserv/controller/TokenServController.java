@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/tokenserv/api/v1/")
+@RequestMapping("/api/v1/tokens")
 @Tag(
         name = "Token Service",
         description = "APIs for tokenizing and detokenizing sensitive data"

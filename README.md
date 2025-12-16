@@ -23,7 +23,6 @@ This service:
 * Java 17+
 * Spring Boot
 * Spring Web (REST APIs)
-* Spring Data JPA
 * H2 In-Memory Database
 * JUnit 4 (unit testing)
 * Maven
@@ -33,6 +32,7 @@ This service:
 ## 🏗️ Architecture Overview
 
 * **Controller layer** – Exposes REST endpoints
+* **Exception Handler** – Handles the exceptions returned to controller
 * **Service layer** – Handles tokenization and detokenization logic
 * **Repository layer** – Persists token ↔ account mappings
 * **H2 in-memory DB** – Stores mappings for the lifetime of the application
@@ -41,17 +41,12 @@ Design principles followed:
 
 * Single Responsibility Principle
 * Clear separation of concerns
-* No overengineering
+* Basic solution 
 * Easy to test and reason about
 
 ---
 
 ## 🚀 Running the Application Locally
-
-### Prerequisites
-
-* Java 17 or later
-* Maven 3.8+
 
 ### Start the service
 
@@ -93,8 +88,8 @@ http://localhost:8080/v3/api-docs
 
 | Method | Endpoint      | Description                      |
 | ------ | ------------- | -------------------------------- |
-| POST   | `/tokenize`   | Tokenize account numbers         |
-| POST   | `/detokenize` | Convert tokens back to originals |
+| POST   | `/api/v1/tokens/tokenize`   | Tokenize account numbers         |
+| POST   | `/api/v1/tokens/detokenize` | Convert tokens back to originals |
 
 ---
 
@@ -102,7 +97,7 @@ http://localhost:8080/v3/api-docs
 
 ### 1️⃣ Tokenize
 
-**POST** `/tokenize`
+**POST** `/api/v1/tokens/tokenize`
 
 **Request Body**
 
@@ -128,7 +123,7 @@ http://localhost:8080/v3/api-docs
 
 ### 2️⃣ Detokenize
 
-**POST** `/detokenize`
+**POST** `/api/v1/tokens/detokenize`
 
 **Request Body**
 
