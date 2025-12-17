@@ -201,8 +201,10 @@ Run tests using:
 ![Tokenize](tokenserv-screenshots/tokenize.png)
 
 ### De-Tokenize endpoint
-![Tokenize](tokenserv-screenshots/deTokenize.png)
+![deTokenize](tokenserv-screenshots/deTokenize.png)
 
+### DB entries in the table
+![dbEntries](tokenserv-screenshots/dbEntries.png)
 ---
 
 ## ⚠️ Known Limitations (By Design)
